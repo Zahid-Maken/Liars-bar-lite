@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Liars Bar</title>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+    }
+    
+    #p5_loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 80%;
+      max-width: 400px;
+    }
+    
+    #loadingBar {
+      width: 100%;
+      height: 20px;
+      border: 2px solid #333;
+      border-radius: 10px;
+      margin: 20px auto;
+      overflow: hidden;
+    }
+    
+    #loadingProgress {
+      height: 100%;
+      width: 0%;
+      background-color: #1e90ff;
+      transition: width 0.3s ease;
+    }
+    
+    #loadingText {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    
+    #loading-percentage {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    
+    .loading-dots {
+      font-size: 24px;
+      letter-spacing: 4px;
+      animation: dots 1.5s infinite;
+    }
+    
+    @keyframes dots {
+      0%, 20% { content: "."; }
+      40% { content: ".."; }
+      60%, 100% { content: "..."; }
+    }
+    
+    /* Hide preloaded images */
+    #preloaded-images {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Fallback loading indicator shown by the browser before p5.js initializes -->
+  <div id="p5_loading">
+    <h1>Liar's Bar</h1>
+    <div id="loadingBar">
+      <div id="loadingProgress"></div>
+    </div>
+    <div id="loadingText">Loading assets<span class="loading-dots" id="dots"></span></div>
+    <div id="loading-percentage">0%</div>
+  </div>
+  
+  <!-- Preload images using HTML instead of p5.js loadImage -->
+  <div id="preloaded-images">
+    <img id="pfp1" src="assets/pfps/1.png" alt="Profile 1">
+    <img id="pfp2" src="assets/pfps/2.png" alt="Profile 2">
+    <img id="pfp3" src="assets/pfps/3.png" alt="Profile 3">
+    <img id="pfp4" src="assets/pfps/4.png" alt="Profile 4">
+    <img id="tableImg" src="assets/evironment/17938574.png" alt="Table">
+    <!-- Card images -->
+    <img id="card1" src="assets/cards/1.png" alt="Ace">
+    <img id="card2" src="assets/cards/2.png" alt="King">
+    <img id="card3" src="assets/cards/3.png" alt="Queen">
+    <img id="card4" src="assets/cards/4.png" alt="Joker">
+    <img id="cardBack" src="assets/cards/cards back .png" alt="Card Back">
+    <img id="newCardBack" src="assets/cards/cards back .png" alt="New Card Back">
+    <img id="revolver" src="assets/design/revolver.png" alt="Revolver">
+  </div>
+  
+  <script>
+    // Animate the dots for the loading text
+    let dots = document.getElementById('dots');
+    setInterval(() => {
+      if (dots) {
+        dots.textContent = dots.textContent === '...' ? '' : dots.textContent + '.';
+      }
+    }, 500);
+    
+    // Simulate some loading progress for the HTML fallback
+    let progress = 0;
+    let loadingInterval = setInterval(() => {
+      progress += 5;
+      if (progress > 90) clearInterval(loadingInterval);
+      
+      const progressElement = document.getElementById('loadingProgress');
+      if (progressElement) {
+        progressElement.style.width = progress + '%';
+      }
+      
+      const percentageElement = document.getElementById('loading-percentage');
+      if (percentageElement) {
+        percentageElement.textContent = progress + '%';
+      }
+    }, 200);
+  </script>
+  
+  <script src="sketch.js"></script>
+</body>
+</html>
